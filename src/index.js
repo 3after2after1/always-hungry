@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import Recipe from "./Recipe.jsx";
+import Favourites from "./Favourites.jsx";
 import { BrowserRouter, Route, Switch, Link } from "react-router-dom";
 import "./index.css";
 import App from "./App";
@@ -17,6 +18,9 @@ ReactDOM.render(
 
         <Route path="/recipe">
           <Recipe />
+        </Route>
+        <Route path="/favorites">
+          <Favourites />
         </Route>
       </Switch>
     </BrowserRouter>

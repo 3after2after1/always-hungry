@@ -6,6 +6,8 @@ import Categories from "./categories";
 import RandomMeal from "./RandomMeal";
 import { BrowserRouter, Route, Switch, Link } from "react-router-dom";
 import React, { Component, useState } from "react";
+import Favourites from "./Favourites.jsx";
+import Navbar from "./Navbar";
 
 function App() {
   const [meals, setMeals] = React.useState([]);
@@ -13,12 +15,13 @@ function App() {
   const [recipes, setrecipes] = useState([]);
   const [categoryResult, setCategoryResult] = useState([]);
   const [queryResult, setQueryResult] = useState([]);
+  const [favorites, setFavourites] = React.useState([]);
 
-  var url = `https://www.themealdb.com/api/json/v1/1/search.php?s=${mealName}`;
+  const url = `https://www.themealdb.com/api/json/v1/1/search.php?s=${mealName}`;
 
   // getRecipes function GETS data from provided url and save the data to "recipes" array
   async function getRecipes() {
-    var result = await Axios.get(url);
+    const result = await Axios.get(url);
     setrecipes(result.data.meals);
   }
 
@@ -26,6 +29,10 @@ function App() {
   const onSubmit = (e) => {
     e.preventDefault();
     getRecipes();
+  };
+
+  const setFavouriteHandler = (e) => {
+    console.log(e);
   };
 
   // obtain data from api
@@ -36,7 +43,6 @@ function App() {
       })
       .then((dataJson) => {
         setMeals(Array.from(dataJson.meals));
-        console.log(meals);
       });
   }, []);
 
@@ -52,6 +58,12 @@ function App() {
 
   return (
     <div className="App">
+      <BrowserRouter>
+        <Navbar />
+        <Switch>
+          <Route exact path="/favorites" component={Favourites} />
+        </Switch>
+      </BrowserRouter>
       <h1>Home</h1>
       <RandomMeal />
       <Categories passResult={setCategoryResult} />
@@ -72,10 +84,18 @@ function App() {
       <div>
         <h1>main result section</h1>
         {queryResult &&
+          queryResult.length > 0 &&
           queryResult.map((result, index) => {
-            return <MealCard key={index} meal={result} />;
+            return (
+              <MealCard
+                key={index}
+                meal={result}
+                passChildData={setFavouriteHandler}
+              />
+            );
           })}
       </div>
+      <Favourites props={favorites} />
     </div>
   );
 }

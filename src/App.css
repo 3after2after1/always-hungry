@@ -4,7 +4,8 @@
   height: 100px;
   background-color: cornsilk;
   border: 1px solid black;
-  margin: 5px;
+  margin: 0.3rem;
+  box-sizing: border-box;
 }
 
 .card > img {
@@ -43,4 +44,16 @@
 
 .photo {
   width: 100%;
+}
+
+.card.detail {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.btn-fav {
+  width: calc(100% - 0.6rem);
+  margin: 0;
 }
